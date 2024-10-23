@@ -1,4 +1,4 @@
-# jshelpers
+# jshelprs
 
 A set of useful vanilla Javascript functions in ESM format.
 
@@ -10,36 +10,47 @@ A set of useful vanilla Javascript functions in ESM format.
 ```javascript
 import { function_name[, ...] } from '<path to>/jshelprs.js'
 ```
+`CODES_US_STATES`<br>
 `Array_Difference`<br>
 `Array_Intersection`<br>
 `Array_Unique`<br>
-`Debounce`<br>
 `Class_Change`<br>
 `Convert_Hex_To_HSL`<br>
 `Convert_Hex_To_RGB`<br>
 `Convert_Odd_To_Even`<br>
 `Convert_RGB_To_HSL`<br>
 `Convert_Transform_To_Matrix`<br>
+`Convert_Unix_Time`<br>
 `Copy_Array_Values`<br>
+`Copy_To_Clipboard`<br>
 `Create_Aspect_Ratio`<br>
 `Create_New_Element`<br>
 `CSS_To_Matrix`<br>
+`DB`<br>
+`Debounce`<br>
+`DOM_Parser`<br>
+`Fetch_Resource`<br>
 `Find_Templates`<br>
+`Get_All_Tabbable`<br>
 `Get_Last_String_Part`<br>
 `Get_Media_Query_Size`<br>
 `Get_Rando_Num`<br>
 `Get_Window_Size`<br>
 `Is_Divisible`<br>
+`Is_Empty_Object`<br>
 `Iterate`<br>
+`JSON_Prettify`<br>
 `KebabClass`<br>
-`NodeDevMode`<br>
+`Make_Querable_Promise`<br>
 `Matrix_To_CSS`<br>
+`NodeDevMode`<br>
 `Parse`<br>
+`Parse_String_As_Props`<br>
 `Print_Object_State`<br>
 `Random_Int_Between`<br>
 `Replacer`<br>
-`Reviver`<br>
 `Report_Error`<br>
+`Reviver`<br>
 `Round_Precision`<br>
 `Set_Styles`<br>
 `Size_To_Text`<br>
@@ -47,13 +58,17 @@ import { function_name[, ...] } from '<path to>/jshelprs.js'
 `Storage_Test`<br>
 `Strip`<br>
 `To_CamelCase`<br>
+`To_DropCap`<br>
+`To_InitialCaps`<br>
 `Toggle_Fullscreen`<br>
 `Trigger_Event`<br>
+`Type_Exception`<br>
 `TypeOf_Object`<br>
+`Validate_String_As`<br>
 `Wait_For_AnimationEnd`<br>
 `Wait_For_Display`<br>
 `Wait_For_TransitionEnd`<br>
-`Fetch_Resource`<br>
+`Wrangle_Number`
 
 ## Debug Constants
 *Usage:*
@@ -72,9 +87,14 @@ import { function_name[, ...] } from '<path to>/jshelprs.js'
 `event: 'font-size: 0.65rem;color:#16A085;'`<br>
 `ui: 'font-size: 0.65rem;color:#F1C40F;'`<br>
 `fn: 'font-size:0.65rem;color:#94A5A6;'`<br>
+`message: 'font-size: 0.65rem;color:#9B59B6;'`<br>
+`xhr: 'font-size: 0.65rem;color:#F1C40F'`<br>
+`log: 'font-size: 0.65rem;color: #E67E22;'`<br>
+`// colors`
 `orange: 'color: #E67E22;'`<br>
 `green: 'color: #2ECC71;'`<br>
 `yellow: 'color: #F1C40F;'`<br>
 `red: 'color: #C0392C;'`<br>
 `purple: 'color: #9B59B6;'`<br>
-  
+
+

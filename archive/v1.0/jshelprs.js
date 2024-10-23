@@ -1,62 +1,8 @@
 /*!
  * module jshelprs <https://github.com/sushidub/jshelprs>
- * version 2.2
- * Copyright (c) 2024, Jeremy Graston.
+ * version 1.0
+ * Copyright (c) 2020, Jeremy Graston.
  * Licensed under the MIT License.
- * 
- *   2.2 Change Log
- * 
- *   CODES_US_STATES (new array)
- *    list of state name objects whose keys are 'code' (2 letter abbreviation) and state 'name'
- *    e.g. { "code": "CO", "name": "Colorado" }
- * 
- *   Get_All_Tabbable (new method)
- *     starting with the provided DOM element, method uses a forEach iterator to traverse into each of its child elements and index any nested elements with a tab index greater than zero
- *     @param startNode (HTMLElement)
- *     @return array of dom elements whose tab indexes are greater than zero
- * 
- *   Make_Querable_Promise (new method)
- *     modify a JS Promise by adding some status properties.
- *     Based on: http://stackoverflow.com/questions/21485545/is-there-a-way-to-tell-if-an-es6-promise-is-fulfilled-rejected-resolved
- *     But modified according to the specs of promises : https://promisesaplus.com/
- *     @param promise
- *
- *   Parse_String_As_Props (new method)
- *     matches each segment of the provided 'period concatenated' string with the provided object nested value and returns the value of the last segment
- *     @param str
- *     @param obj
- *     @param splitter
- *     @return value of the last key(prop) in the string
- * 
- *   Wrangle_Number (new method)
- *    tries to determine the type of number passed in (float, int, safeInt, etc)
- *    @param num (any)
- *    @return object with details about what was found
- * 
- * 
- *   2.1 Change Log
- *   
- *   debug (new method)
- *     @function format(...props)
- *     @params string (...keys)
- *     @return concatenated keys as string
- * 
- *   DB (breaking change)
- *     All methods 
- * 
- * 
- *   2.0 Change Log
- * 
- *   Fetch_Resource (significant update)
- *     Removed the backup XML/AJAX method of which I've never found any usage from.
- * 
- *   Strip (patch)
- *     Added a conditional check in the very last part of the function where the range contextualFragment 
- *     might not have any children (to return) due to rare scenerios where the parsed template contained 
- *     only one child node of which itself lacked any children of her own.
- *     e.g. self closing tags, <img {{...}}/>, <col {{...}} />
- *     More detail and description can be found in the functions inline notes.
- *   
  */
 
 const debug = {
@@ -70,78 +16,16 @@ const debug = {
   event: 'font-size: 0.65rem;color:#16A085;',
   ui: 'font-size: 0.65rem;color:#F1C40F;',
   fn: 'font-size:0.65rem;color:#94A5A6;',
-  message: 'font-size: 0.65rem;color:#9B59B6;',
-  xhr: 'font-size: 0.65rem;color:#F1C40F',
-  log: 'font-size: 0.65rem;color: #E67E22;',
-  
+
   // colors
   orange: 'color: #E67E22;',
   green: 'color: #2ECC71;',
   yellow: 'color: #F1C40F;',
   red: 'color: #C0392C;',
-  purple: 'color: #9B59B6;',
-  format: function(...props) {
-    let formatting = '';
-    props.forEach((prop) => {
-      formatting = formatting + debug[prop];
-    });
-    return formatting;
-  }
-};
+  purple: 'color: #9B59B6;'
 
-const CODES_US_STATES = [
-  { "code": "AL", "name": "Alabama" },
-  { "code": "AK", "name": "Alaska" },
-  { "code": "AZ", "name": "Arizona" },
-  { "code": "AR", "name": "Arkansas" },
-  { "code": "CA", "name": "California" },
-  { "code": "CO", "name": "Colorado" },
-  { "code": "CT", "name": "Connecticut" },
-  { "code": "DE", "name": "Delaware" },
-  { "code": "DC", "name": "District Of Columbia" },
-  { "code": "FL", "name": "Florida" },
-  { "code": "GA", "name": "Georgia" },
-  { "code": "HI", "name": "Hawaii" },
-  { "code": "ID", "name": "Idaho" },
-  { "code": "IL", "name": "Illinois" },
-  { "code": "IN", "name": "Indiana" },
-  { "code": "IA", "name": "Iowa" },
-  { "code": "KS", "name": "Kansas" },
-  { "code": "KY", "name": "Kentucky" },
-  { "code": "LA", "name": "Louisiana" },
-  { "code": "ME", "name": "Maine" },
-  { "code": "MD", "name": "Maryland" },
-  { "code": "MA", "name": "Massachusetts" },
-  { "code": "MI", "name": "Michigan" },
-  { "code": "MN", "name": "Minnesota" },
-  { "code": "MS", "name": "Mississippi" },
-  { "code": "MO", "name": "Missouri" },
-  { "code": "MT", "name": "Montana" },
-  { "code": "NE", "name": "Nebraska" },
-  { "code": "NV", "name": "Nevada" },
-  { "code": "NH", "name": "New Hampshire" },
-  { "code": "NJ", "name": "New Jersey" },
-  { "code": "NM", "name": "New Mexico" },
-  { "code": "NY", "name": "New York" },
-  { "code": "NC", "name": "North Carolina" },
-  { "code": "ND", "name": "North Dakota" },
-  { "code": "OH", "name": "Ohio" },
-  { "code": "OK", "name": "Oklahoma" },
-  { "code": "OR", "name": "Oregon" },
-  { "code": "PA", "name": "Pennsylvania" },
-  { "code": "RI", "name": "Rhode Island" },
-  { "code": "SC", "name": "South Carolina" },
-  { "code": "SD", "name": "South Dakota" },
-  { "code": "TN", "name": "Tennessee" },
-  { "code": "TX", "name": "Texas" },
-  { "code": "UT", "name": "Utah" },
-  { "code": "VT", "name": "Vermont" },
-  { "code": "VA", "name": "Virginia" },
-  { "code": "WA", "name": "Washington" },
-  { "code": "WV", "name": "West Virginia" },
-  { "code": "WI", "name": "Wisconsin" },
-  { "code": "WY", "name": "Wyoming" }
-];
+  // usage: console.log('%cinitProgress finish', debug.event);
+};
 
 function Array_Difference(arr1, arr2) {
   if (typeof arr1 !== "object" || typeof arr2 !== "object") {
@@ -211,6 +95,15 @@ function Array_Unique(arr1, arr2) {
   return uniq;
 }
 
+function Debounce(period, callback) {
+  if (typeof period !== "number") return false;
+  let timeoutID;
+  timeoutID = window.setTimeout(() => {
+    window.clearTimeout(timeoutID);
+    return callback();
+  }, period);
+}
+
 function Class_Change(ele, mthd, str) {
   if (ele instanceof HTMLElement) {
     ele.classList[mthd](str);
@@ -219,6 +112,26 @@ function Class_Change(ele, mthd, str) {
   }
 
   return ele;
+}
+
+function Convert_Hex_To_RGB(h) {
+  // ref: https://css-tricks.com/converting-color-spaces-in-javascript/
+  let r = 0, g = 0, b = 0;
+
+  // 3 digits
+  if (h.length == 4) {
+    r = "0x" + h[1] + h[1];
+    g = "0x" + h[2] + h[2];
+    b = "0x" + h[3] + h[3];
+
+  // 6 digits
+  } else if (h.length == 7) {
+    r = "0x" + h[1] + h[2];
+    g = "0x" + h[3] + h[4];
+    b = "0x" + h[5] + h[6];
+  }
+
+  return "rgb("+ +r + "," + +g + "," + +b + ")";
 }
 
 function Convert_Hex_To_HSL(hex) {
@@ -284,27 +197,7 @@ function Convert_Hex_To_HSL(hex) {
   return "hsl(" + h + "," + s + "%," + l + "%)";
 }
 
-function Convert_Hex_To_RGB(h) {
-  // ref: https://css-tricks.com/converting-color-spaces-in-javascript/
-  let r = 0, g = 0, b = 0;
-
-  // 3 digits
-  if (h.length == 4) {
-    r = "0x" + h[1] + h[1];
-    g = "0x" + h[2] + h[2];
-    b = "0x" + h[3] + h[3];
-
-  // 6 digits
-  } else if (h.length == 7) {
-    r = "0x" + h[1] + h[2];
-    g = "0x" + h[3] + h[4];
-    b = "0x" + h[5] + h[6];
-  }
-
-  return "rgb("+ +r + "," + +g + "," + +b + ")";
-}
-
-function Convert_Odd_To_Even(num) {
+function Convert_Odd_To_Even (num) {
   return Number.isInteger(num / 2) ? num : num - 1;
 }
 
@@ -358,7 +251,11 @@ function Convert_RGB_To_HSL(r, g, b) {
 
 }
 
-function Convert_Transform_To_Matrix(css) {
+function Convert_Unix_Time(timestamp) {
+  return new Date(timestamp * 1000);
+}
+
+function Convert_Transform_To_Matrix (css) {
 
   var matrix_values = css.slice(css.indexOf("(") + 1, css.indexOf(")"));
   matrix_values = matrix_values.split(/,\s/);
@@ -369,11 +266,6 @@ function Convert_Transform_To_Matrix(css) {
     "translateY": parseInt(matrix_values[5], 10)
   };
 
-}
-
-function Convert_Unix_Time(timestamp) {
-  if ( ! timestamp ) return null;
-  return new Date(timestamp * 1000).toLocaleString();
 }
 
 function Copy_Array_Values(srcArray) {
@@ -391,35 +283,6 @@ function Copy_Array_Values(srcArray) {
   }
 
   return valueArray;
-}
-
-function Copy_To_Clipboard(copyTarget) {
-  if ( ! copyTarget ) {
-    console.warn('Copy_To_Clipboard expects one parameter consisting of target DOM node');
-    return false;
-  }
-
-  this.addEventListener('click', (e) => {
-    
-    navigator.clipboard.writeText(copyTarget).then(
-      () => {
-        console.info('Copied to clipboard');
-        e.target.textContent = 'copied';
-      },
-      () => {
-        console.info('Copied to clipboard failed');
-        e.target.textContent = 'copy fail';
-      },
-    );
-
-    let timeoutID;
-    timeoutID = window.setTimeout(() => {
-      window.clearTimeout(timeoutID);
-      e.target.textContent = 'clipboard';
-      return;
-    }, 2000);
-
-  });
 }
 
 function Create_Aspect_Ratio(w, h) {
@@ -490,7 +353,7 @@ function Create_New_Element(type, attrObj, ns = false) {
   return el;
 }
 
-function CSS_To_Matrix(translateX, translateY, scale) {
+function CSS_To_Matrix (translateX, translateY, scale) {
   scale = parseFloat(scale) || 1;
 
   var matrixObj = "matrix(" + scale + ", 0, 0, " + scale + ", " + parseInt(translateX, 10) + ", " + parseInt(translateY, 10) + ")";
@@ -516,7 +379,7 @@ function DB(name) {
   };
 
   this.isValueInKey = function (key, val) {
-    if ( ! localStorage.getItem(key) ) {
+    if (!localStorage.getItem(key)) {
       localStorage.setItem(key, val);
     }
     return localStorage.getItem(key).split(",").indexOf(val);
@@ -543,14 +406,12 @@ function DB(name) {
     // const blob = JSON.stringify(obj);
     const blob = JSON.stringify(obj, Replacer);
     sessionStorage.setItem(key, blob);
-    return obj;
   };
 
   this.setLocal = function(obj, key) {
     key = key || this.name;
     const blob = JSON.stringify(obj, Replacer);
     localStorage.setItem(key, blob);
-    return obj;
   };
 
   this.getLocal = function(key) {
@@ -596,55 +457,6 @@ function DB(name) {
   };
 }
 
-function Debounce(period, callback) {
-  if (typeof period !== "number") return false;
-  let timeoutID;
-  timeoutID = window.setTimeout(() => {
-    window.clearTimeout(timeoutID);
-    return callback();
-  }, period);
-}
-
-function DOM_Parser(str, id) {
-  id = id || null;
-  const parser = new DOMParser();
-  let fragment = parser.parseFromString(str, 'text/html');
-  fragment = (id !== null ? fragment.getElementById(id) : fragment.body.firstElementChild);
-  return fragment;
-}
-
-function Fetch_Resource(uri = '', options = {}, handler) {
-  let res;
-  return new Promise(function(resolve, reject) {
-    fetch(uri, options).then(res => {
-      let responseData;
-      if ( ! res.ok ) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      try {
-        responseData = res.json();
-        if (responseData.hasOwnProperty('error')) {
-          throw responseData;
-        }
-      } catch(error) {
-        return error;
-      }
-      return responseData;
-    }, error => {
-      reject(error);
-    })
-    .then(res => {
-      if ( handler ) {
-        resolve(handler(res));
-      } else {
-        resolve(res);
-      }
-    }, error => {
-      reject(error);
-    });
-  });
-}
-
 function Find_Templates(map) {
   const templates = {};
 
@@ -668,145 +480,6 @@ function Find_Templates(map) {
   }
 
   return templates;
-}
-
-function Fix_This_Float(num, digits = 7) {
-  if (typeof num !== 'number' || Number.isNaN(num)) return false;
-  if (Number.isInteger(num)) {
-    return parseInt(new Number(num).toPrecision(2), 10);
-  }
-  return parseFloat(new Number(num));
-}
-
-function Format_String(str, method) {
-  switch (method) {
-    case "lower":
-      return str.toLowerCase();
-    case "upper":
-      return str.toUpperCase();
-    case "kebab":
-      return To_KebabCase(str);
-    case "camel":
-      return To_CamelCase(str);
-    case "dropCap":
-      return To_DropCap(str);
-    case "initial":
-      return To_InitialCaps(str);
-    case "concat":
-      return str.split(" ").join("");
-    default: 
-      return str;
-  }
-}
-
-function Get_All_Tabbable(startNode) {
-  console.info('%cfn:Get_All_Tabbable', debug.fn);
-
-  const tabbable = [];
-
-  function looper(node) {
-    Array.from(node.children).forEach((child) => {
-      if (child.children.length > 0) {
-        looper(child);
-      }
-      if (child.tabIndex >= 0) {
-        tabbable.push(child);
-      }
-    })
-  };
-
-  looper(startNode);
-
-  return tabbable;
-}
-
-function Get_Device_Name() {
-
-  // device maps
-  const iosDeviceMapping = new Map([
-    ['320x480', 'IPhone 4S, 4, 3GS, 3G, 1st gen'],
-    ['320x568', 'IPhone 5, SE 1st Gen,5C, 5S'],
-    ['375x667', 'IPhone SE 2nd Gen, 6, 6S, 7, 8'],
-    ['375x812', 'IPhone X, XS, 11 Pro, 12 Mini, 13 Mini'],
-    ['390x844', 'IPhone 13, 13 Pro, 12, 12 Pro'],
-    ['414x736', 'IPhone 8+'],
-    ['414x896', 'IPhone 11, XR, XS Max, 11 Pro Max'],
-    ['428x926', 'IPhone 13 Pro Max, 12 Pro Max'],
-    ['476x847', 'IPhone 7+, 6+, 6S+'],
-    ['744x1133', 'IPad Mini 6th Gen'],
-    [
-      '768x1024',
-      'IPad Mini (5th Gen), IPad (1-6th Gen), iPad Pro (1st Gen 9.7), Ipad Mini (1-4), IPad Air(1-2)  ',
-    ],
-    ['810x1080', 'IPad 7-9th Gen'],
-    ['820x1180', 'iPad Air (4th gen)'],
-    ['834x1194', 'iPad Pro (3-5th Gen 11)'],
-    ['834x1112', 'iPad Air (3rd gen), iPad Pro (2nd gen 10.5)'],
-    ['1024x1366', 'iPad Pro (1-5th Gen 12.9)'],
-  ]);
-
-  const desktopDeviceMapping = new Map([
-    ['Win32', 'windows'],
-    ['Linux', 'linux'],
-    ['MacIntel', 'macos'],
-    ['macOS', 'macos'],
-  ]);
-
-  // get device name for android
-  const getAndroidDeviceName = () => {
-    const androidUserAgentString = window.navigator.userAgent.slice(window.navigator.userAgent.indexOf('Android'));
-    const androidDeviceName = androidUserAgentString.slice(androidUserAgentString.indexOf('; ') + 1, androidUserAgentString.indexOf(')'));
-    
-    if ( androidDeviceName ) {
-      return androidDeviceName.trim().split(' ')[0];
-    }
-
-    return 'Android';
-
-  };
-
-  // get device name for ios
-  const getIosDeviceName = () => {
-    const screenResolution = `${window.screen.width}x${window.screen.height}`;
-    const device = iosDeviceMapping.get(screenResolution);
-    
-    if ( device ) {
-      return device;
-    }
-
-    return 'iphone';
-
-  };
-
-  // get device name for desktop
-  const getDesktopDeviceName = () => {
-    const platform = navigator?.userAgentData?.platform || navigator?.platform || 'unknown';
-    device = desktopDeviceMapping.get(platform) ?? 'Unknown';
-    
-    return device;
-
-  };
-  
-  let device = '';
-
-  // check if mobile device
-  const isMobileDevice = window.navigator.userAgent
-    .toLowerCase()
-    .includes('mobi');
-
-  if (isMobileDevice) {
-
-    if ( window.navigator.userAgent.includes('Android') ) {
-      device = 'Android'; // getAndroidDeviceName();
-    } else {
-      device = 'iOS'; // getIosDeviceName();
-    }
-
-  } else {
-    const device = getDesktopDeviceName();
-  }
-    
-  return device;
 }
 
 function Get_Last_String_Part(str, char) {
@@ -870,10 +543,6 @@ function Is_Divisible(num, multiplyBy) {
   return Number.isInteger(num / multiplyBy) ? true : false;
 }
 
-function Is_Empty_Object(obj) {
-  return Object.keys(obj).length === 0 && obj.constructor === Object;
-}
-
 function Iterate(iterator) {
   let values = [];
   let val = iterator.next();
@@ -903,39 +572,12 @@ function KebabClass(str) {
   return str.toLowerCase().split(" ").join("-");
 }
 
-/**
- * This function allow you to modify a JS Promise by adding some status properties.
- * Based on: http://stackoverflow.com/questions/21485545/is-there-a-way-to-tell-if-an-es6-promise-is-fulfilled-rejected-resolved
- * But modified according to the specs of promises : https://promisesaplus.com/
- */
-function Make_Querable_Promise(promise) {
-  // Don't modify any promise that has been already modified.
-  if (promise.isFulfilled) return promise;
-
-  // Set initial state
-  let isPending = true;
-  let isRejected = false;
-  let isFulfilled = false;
-
-  // Observe the promise, saving the fulfillment in a closure scope.
-  const result = promise.then(
-      function(v) {
-          isFulfilled = true;
-          isPending = false;
-          return v; 
-      }, 
-      function(e) {
-          isRejected = true;
-          isPending = false;
-          throw e; 
-      }
-  );
-
-  result.isFulfilled = function() { return isFulfilled; };
-  result.isPending = function() { return isPending; };
-  result.isRejected = function() { return isRejected; };
-
-  return result;
+function NodeDevMode() {
+  if (process && typeof process === 'object') {
+    return process.env.NODE_ENV === "development" ? true : false;
+  } else {
+    return false;
+  }
 }
 
 function Matrix_To_CSS(obj) {
@@ -946,31 +588,10 @@ function Matrix_To_CSS(obj) {
   return "matrix(" + obj.scale + ",0,0," + obj.scale + "," + obj.translateX + "," + obj.translateY + ")";
 }
 
-function NodeDevMode() {
-  if ( typeof process !== 'undefined'  && typeof process === 'object' ) {
-    return process.env.NODE_ENV === "development" ? true : false;
-  } else {
-    return false;
-  }
-}
-
 function Parse(str) {
   const regStripExp = /(&lt;%=.+\((.+)\)\s(?:\{?)\n?(.+)(\n|\n.+|.+?)\}\s=%&gt;)/g;
   let m = regStripExp.exec(str);
   return m;
-}
-
-function Parse_String_As_Props(str, obj, splitter = '.') {
-  let keys = str.split(splitter);
-  let accessor = obj;
-
-  keys.map(key => {
-    if (accessor.hasOwnProperty(key)) {
-      accessor = accessor[key];
-    }
-  });
-
-  return accessor;
 }
 
 function Print_Object_State(obj) {
@@ -1010,10 +631,6 @@ function Replacer(key, value) {
   // ];
 }
 
-function Report_Error(message) {
-  console.error(message);
-}
-
 function Reviver(key, value) {
   if (typeof value === "object" && value !== null) {
     if (value.dataType === "Map") {
@@ -1026,7 +643,11 @@ function Reviver(key, value) {
   // console.log(originalValue, newValue);
 }
 
-function Round_Precision(num, precision) {
+function Report_Error (message) {
+  console.error(message);
+}
+
+function Round_Precision (num, precision) {
   // ex: RoundPrecision( 20.238, 2 )
   // => 20.24
   var multiplier = Math.pow(10, precision);
@@ -1055,7 +676,7 @@ function Size_To_Text(ele, scale) {
   return true;
 }
 
-function Sort_By(arr, type, prop, order) {
+function Sort_By (arr, type, prop, order) {
   // console.log("arr: %O\ntype: %s\nprop: %s\norder: %s", arr, type, prop, order);
 
   if (typeof arr !== "object") {
@@ -1065,7 +686,7 @@ function Sort_By(arr, type, prop, order) {
 
   type = type || "";      // string, ('num','str') defines what data type to wrangle from the 'a' and 'b' params, defaults to string
   prop = prop || null;    // string, refers to the object property each item in the arr list should be compared against
-  order = order || "asc";  // string, ('asc','dsc') defines the desired order to return results
+  order = order || "asc";  // string, ('asc','desc') defines the desired order to return results
 
   function wrangleType(thing) {
     if (type === String || type === "string" || type === "str" || type === "") {
@@ -1147,7 +768,7 @@ function Sort_By(arr, type, prop, order) {
 
 }
 
-function Storage_Test(type) {
+function Storage_Test (type) {
   try {
     var storage = window[type];
     var x = "__storage_test__";
@@ -1255,8 +876,7 @@ function Strip(obj) {
         if (v) {
           matches.set(m, v);
         } else {
-          // removed so as to preserve the bracketed values
-          // matches.set(m, "");
+          matches.set(m, "");
         }
 
       });
@@ -1286,15 +906,6 @@ function Strip(obj) {
     } else {
       return el;
     }
-  }
-}
-
-function Supports_Popover() {
-  if ( HTMLElement.prototype.hasOwnProperty('popover') ) {
-    return true;
-  } else {
-    console.warn('Heads up! This browser doesn\'t support the Popover API');
-    return false;
   }
 }
 
@@ -1328,20 +939,6 @@ function To_CamelCase(str, titleCase=false) {
   }
 
   return a.join("").toString();
-}
-
-function To_DropCap(str) {
-  return str[0].toUpperCase() + str.slice(1);
-}
-
-function To_InitialCaps(str, sep = '-') {
-  const arr = str.split(sep);
-  let transform = "";
-  arr.forEach((val, idx) => {
-    transform += val.slice(0,1).toUpperCase() + val.substring(1);
-    if (idx > 0) transform += " ";
-  });
-  return transform;
 }
 
 function Toggle_Fullscreen(el) {
@@ -1381,22 +978,6 @@ function Trigger_Event(eventType, options, target = window) {
   }
 }
 
-function Type_Exception(value, type, caller) {
-  this.value = value;
-  this.type = type;
-  this.caller = caller || '';
-  if (typeof caller === 'string') {
-    this.message = 'The type returned (e.g.: ' + typeof this.value + ') at ' + this.caller + ' does not match the expected ' + this.type + ' type.';
-  } else if (typeof caller === 'object') {
-    this.message = 'The type expected does not match: expected: ' + this.type + ', actual: ' + this.value + ', caller: ' + this.caller;
-  } else {
-    this.message = 'The type expected does not match: expected: ' + this.type + ', actual: ' + this.value;
-  }
-  this.toString = function() {
-    return this.value + this.message;
-  };
-}
-
 function TypeOf_Object(obj) {
   if (typeof obj !== "object") {
     console.warn("TypeOf_Object argument must be an Array, Map, or Object");
@@ -1410,31 +991,6 @@ function TypeOf_Object(obj) {
   } else {
     console.info("TypeOf_Object: Object");
     return "object";
-  }
-}
-
-function Validate_String_As(str, pattern) {
-  const mailRegex = /^[a-zA-Z][a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}$/g;
-  // /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-  // /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  const urlRegx = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-  switch (pattern) {
-    case 'email':
-      // console.log(str.match(mailRegex));
-      if (str.match(mailRegex)) {
-        return true;
-      } else {
-        return false;
-      }
-    case 'url':
-      // console.log(str.match(urlRegx));
-      if (str.match(urlRegx)) {
-        return true;
-      } else {
-        return false;
-      }
-    case 'date':
-      break;
   }
 }
 
@@ -1476,43 +1032,54 @@ function Wait_For_TransitionEnd(el, cb, ...options) {
   }, false);
 }
 
-function Wrangle_Number(num) {
-  // atttempt to figure out what type of number 'num' is
-  // float, int, safeInt
-  let numberDetail = {};
-
-  if (typeof num === 'string') {
-    if (num.length === parseInt(num, 10).toString().length) {
-      num = parseInt(num);
+function Fetch_Resource(uri = '', options = {}, handler, useFetch = true) {
+  // console.info('%c--------Fetch_Resource--------\nuri: %s\ndata: %O', debug.fn, uri, options);
+  return new Promise((resolve,reject) => {
+    let res;
+    if (useFetch && self.fetch) {
+      console.info('%cfetch is supported. using fetch', debug.small);
+      fetch(uri, options)
+        .then(function(response) {
+          console.log('%cresponse: %O', debug.event, response);
+          res = handler(response);
+          resolve(res);
+        });
     } else {
-      num = parseFloat(num);
+        // use a XMLHttpRequest here
+      console.warn('%cfetch not supported\n%cusing XMLHttpRequest: %O', debug.alert, debug.small);
+      let xmlhttp;
+      xmlhttp = new XMLHttpRequest();
+      if (uri instanceof Request) uri = uri.url;
+      // xmlhttp.responseType = 'blob';
+      xmlhttp.open(options.method, uri, true);
+      // NOTE: When sending FormData objects over xhr (using xhr, not fetch)
+      // the current status quo is to leave the Content-Type header completely off
+      // as the browser will supply the most appropriate header.
+      // This seems to allieviate/avoid the various WebkitBoundary issues
+      //
+      // xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 2) {
+          console.info('%cspinning...', debug.small);
+        }
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          console.info('%cfinished...', debug.small);
+          console.info('%cresponse: %O', debug.event, xmlhttp);
+          res = handler(xmlhttp);
+          resolve(res);
+        }
+      };
+      xmlhttp.send(null);
     }
-  }
-
-  if (Number.isFinite(num)) {
-    if (Number.isInteger(num)) {
-      numberDetail.type = 'int';
-    } else {
-      let points = num.toString().split('.')[1].length;
-      if (points > 0) {
-        numberDetail.type = 'float';
-        numberDetail.precision = points;
-      }
-    }
-  } else if (Number.isNaN(num) || !Number.isFinite(num)) {
-    numberDetail.type = 'NaN';
-  }
-
-  numberDetail.number = num;
-  return numberDetail;
+  })
 }
 
 export {
   debug,
-  CODES_US_STATES,
   Array_Difference,
   Array_Intersection,
   Array_Unique,
+  Debounce,
   Class_Change,
   Convert_Hex_To_HSL,
   Convert_Hex_To_RGB,
@@ -1521,55 +1088,38 @@ export {
   Convert_Transform_To_Matrix,
   Convert_Unix_Time,
   Copy_Array_Values,
-  Copy_To_Clipboard,
   Create_Aspect_Ratio,
   Create_New_Element,
   CSS_To_Matrix,
-  DB,
-  Debounce,
-  DOM_Parser,
-  Fetch_Resource,
   Find_Templates,
-  Fix_This_Float,
-  Format_String,
-  Get_All_Tabbable,
-  Get_Device_Name,
   Get_Last_String_Part,
   Get_Media_Query_Size,
   Get_Rando_Num,
   Get_Window_Size,
   Is_Divisible,
-  Is_Empty_Object,
   Iterate,
   JSON_Prettify,
   KebabClass,
-  Make_Querable_Promise,
-  Matrix_To_CSS,
   NodeDevMode,
+  Matrix_To_CSS,
   Parse,
-  Parse_String_As_Props,
   Print_Object_State,
   Random_Int_Between,
   Replacer,
-  Report_Error,
   Reviver,
+  Report_Error,
   Round_Precision,
   Set_Styles,
   Size_To_Text,
   Sort_By,
   Storage_Test,
   Strip,
-  Supports_Popover,
   To_CamelCase,
-  To_DropCap,
-  To_InitialCaps,
   Toggle_Fullscreen,
   Trigger_Event,
-  Type_Exception,
   TypeOf_Object,
-  Validate_String_As,
   Wait_For_AnimationEnd,
   Wait_For_Display,
   Wait_For_TransitionEnd,
-  Wrangle_Number
+  Fetch_Resource
 }

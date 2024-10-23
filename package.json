@@ -1,6 +1,6 @@
 {
-  "name": "@sushidub/jshelpers",
-  "version": "1.0.0",
+  "name": "jshelprs",
+  "version": "2.2",
   "description": "A set of useful vanilla Javascript functions in ESM format.",
   "main": "jshelprs.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sushidub/jshelpers.git"
+    "url": "git+https://github.com/sushidub/jshelprs.git"
   },
   "keywords": [
     "esm",
@@ -22,7 +22,7 @@
   "author": "J.Graston",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sushidub/jshelpers/issues"
+    "url": "https://github.com/sushidub/jshelprs/issues"
   },
-  "homepage": "https://github.com/sushidub/jshelpers#readme"
+  "homepage": "https://github.com/sushidub/jshelprs#readme"
 }

@@ -670,35 +670,6 @@ function Find_Templates(map) {
   return templates;
 }
 
-function Fix_This_Float(num, digits = 7) {
-  if (typeof num !== 'number' || Number.isNaN(num)) return false;
-  if (Number.isInteger(num)) {
-    return parseInt(new Number(num).toPrecision(2), 10);
-  }
-  return parseFloat(new Number(num));
-}
-
-function Format_String(str, method) {
-  switch (method) {
-    case "lower":
-      return str.toLowerCase();
-    case "upper":
-      return str.toUpperCase();
-    case "kebab":
-      return To_KebabCase(str);
-    case "camel":
-      return To_CamelCase(str);
-    case "dropCap":
-      return To_DropCap(str);
-    case "initial":
-      return To_InitialCaps(str);
-    case "concat":
-      return str.split(" ").join("");
-    default: 
-      return str;
-  }
-}
-
 function Get_All_Tabbable(startNode) {
   console.info('%cfn:Get_All_Tabbable', debug.fn);
 
@@ -718,95 +689,6 @@ function Get_All_Tabbable(startNode) {
   looper(startNode);
 
   return tabbable;
-}
-
-function Get_Device_Name() {
-
-  // device maps
-  const iosDeviceMapping = new Map([
-    ['320x480', 'IPhone 4S, 4, 3GS, 3G, 1st gen'],
-    ['320x568', 'IPhone 5, SE 1st Gen,5C, 5S'],
-    ['375x667', 'IPhone SE 2nd Gen, 6, 6S, 7, 8'],
-    ['375x812', 'IPhone X, XS, 11 Pro, 12 Mini, 13 Mini'],
-    ['390x844', 'IPhone 13, 13 Pro, 12, 12 Pro'],
-    ['414x736', 'IPhone 8+'],
-    ['414x896', 'IPhone 11, XR, XS Max, 11 Pro Max'],
-    ['428x926', 'IPhone 13 Pro Max, 12 Pro Max'],
-    ['476x847', 'IPhone 7+, 6+, 6S+'],
-    ['744x1133', 'IPad Mini 6th Gen'],
-    [
-      '768x1024',
-      'IPad Mini (5th Gen), IPad (1-6th Gen), iPad Pro (1st Gen 9.7), Ipad Mini (1-4), IPad Air(1-2)  ',
-    ],
-    ['810x1080', 'IPad 7-9th Gen'],
-    ['820x1180', 'iPad Air (4th gen)'],
-    ['834x1194', 'iPad Pro (3-5th Gen 11)'],
-    ['834x1112', 'iPad Air (3rd gen), iPad Pro (2nd gen 10.5)'],
-    ['1024x1366', 'iPad Pro (1-5th Gen 12.9)'],
-  ]);
-
-  const desktopDeviceMapping = new Map([
-    ['Win32', 'windows'],
-    ['Linux', 'linux'],
-    ['MacIntel', 'macos'],
-    ['macOS', 'macos'],
-  ]);
-
-  // get device name for android
-  const getAndroidDeviceName = () => {
-    const androidUserAgentString = window.navigator.userAgent.slice(window.navigator.userAgent.indexOf('Android'));
-    const androidDeviceName = androidUserAgentString.slice(androidUserAgentString.indexOf('; ') + 1, androidUserAgentString.indexOf(')'));
-    
-    if ( androidDeviceName ) {
-      return androidDeviceName.trim().split(' ')[0];
-    }
-
-    return 'Android';
-
-  };
-
-  // get device name for ios
-  const getIosDeviceName = () => {
-    const screenResolution = `${window.screen.width}x${window.screen.height}`;
-    const device = iosDeviceMapping.get(screenResolution);
-    
-    if ( device ) {
-      return device;
-    }
-
-    return 'iphone';
-
-  };
-
-  // get device name for desktop
-  const getDesktopDeviceName = () => {
-    const platform = navigator?.userAgentData?.platform || navigator?.platform || 'unknown';
-    device = desktopDeviceMapping.get(platform) ?? 'Unknown';
-    
-    return device;
-
-  };
-  
-  let device = '';
-
-  // check if mobile device
-  const isMobileDevice = window.navigator.userAgent
-    .toLowerCase()
-    .includes('mobi');
-
-  if (isMobileDevice) {
-
-    if ( window.navigator.userAgent.includes('Android') ) {
-      device = 'Android'; // getAndroidDeviceName();
-    } else {
-      device = 'iOS'; // getIosDeviceName();
-    }
-
-  } else {
-    const device = getDesktopDeviceName();
-  }
-    
-  return device;
 }
 
 function Get_Last_String_Part(str, char) {
@@ -947,7 +829,7 @@ function Matrix_To_CSS(obj) {
 }
 
 function NodeDevMode() {
-  if ( typeof process !== 'undefined'  && typeof process === 'object' ) {
+  if (process && typeof process === 'object') {
     return process.env.NODE_ENV === "development" ? true : false;
   } else {
     return false;
@@ -1289,15 +1171,6 @@ function Strip(obj) {
   }
 }
 
-function Supports_Popover() {
-  if ( HTMLElement.prototype.hasOwnProperty('popover') ) {
-    return true;
-  } else {
-    console.warn('Heads up! This browser doesn\'t support the Popover API');
-    return false;
-  }
-}
-
 function To_CamelCase(str, titleCase=false) {
   let a = [];
   let n;
@@ -1530,10 +1403,7 @@ export {
   DOM_Parser,
   Fetch_Resource,
   Find_Templates,
-  Fix_This_Float,
-  Format_String,
   Get_All_Tabbable,
-  Get_Device_Name,
   Get_Last_String_Part,
   Get_Media_Query_Size,
   Get_Rando_Num,
@@ -1559,7 +1429,6 @@ export {
   Sort_By,
   Storage_Test,
   Strip,
-  Supports_Popover,
   To_CamelCase,
   To_DropCap,
   To_InitialCaps,
