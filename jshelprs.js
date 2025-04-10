@@ -1,10 +1,10 @@
 /*!
  * module jshelprs <https://github.com/sushidub/jshelprs>
- * version 2.2
+ * version 2.2.0
  * Copyright (c) 2025, Jeremy Graston.
  * Licensed under the MIT License.
  * 
- *   2.2 Change Log
+ *   2.2.0 Change Log
  * 
  *   CODES_US_STATES (new array)
  *    list of state name objects whose keys are 'code' (2 letter abbreviation) and state 'name'

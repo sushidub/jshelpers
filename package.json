@@ -1,6 +1,6 @@
 {
   "name": "jshelprs",
-  "version": "2.2",
+  "version": "2.2.0",
   "description": "ESM formatted vanilla Javascript functions",
   "main": "jshelprs.js",
   "scripts": {
