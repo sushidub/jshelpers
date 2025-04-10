@@ -1,16 +1,18 @@
 # jshelprs
 
-A set of useful vanilla Javascript functions in ESM format.
+A set of ESM formatted vanilla Javascript functions (WIP) intended to work with most modern browser api's.
 
 ---
-
-## Helper Functions List
 *Usage as an ES module:*
 
 ```javascript
-import { function_name[, ...] } from '<path to>/jshelprs.js'
+import { function_name } from '<path to>/jshelprs.js'
+import { constant_name } from '<path to>/jshelprs.js'
+import { * } from '<path to>/jshelprs.js'
 ```
-`CODES_US_STATES`<br>
+---
+
+## Functions
 `Array_Difference`<br>
 `Array_Intersection`<br>
 `Array_Unique`<br>
@@ -70,31 +72,40 @@ import { function_name[, ...] } from '<path to>/jshelprs.js'
 `Wait_For_TransitionEnd`<br>
 `Wrangle_Number`
 
-## Debug Constants
-*Usage:*
+## Constants
+`debug`<br>
+*style your `console.log` statements for distinguishing 'at-a-glance' the various arguments passed in*
 
 ```js
- import { debug } from '<path to>/jshelprs.js';
- console.log('%cinitProgress finish', debug.event);
+console.log('%c my event properties', debug.event);
+// where %c initiates the start of the context style passed in with the debug argument i.e. debug.event
 ```
-`alert: 'font-size:1rem;color:#D35400;'`<br>
-`args: 'font-size:0.65rem;color:#E67E22;'`<br>
-`standout: 'font-size:1.5rem;color:yellow;'`<br>
-`light: 'font-size:0.65rem;color:#94A5A6;'`<br>
-`small: 'font-size: 0.65rem;'`<br>
-`large: 'font-size: 1rem;'`<br>
-`modal: 'color:green;font-size:0.5rem;'`<br>
-`event: 'font-size: 0.65rem;color:#16A085;'`<br>
-`ui: 'font-size: 0.65rem;color:#F1C40F;'`<br>
-`fn: 'font-size:0.65rem;color:#94A5A6;'`<br>
-`message: 'font-size: 0.65rem;color:#9B59B6;'`<br>
-`xhr: 'font-size: 0.65rem;color:#F1C40F'`<br>
-`log: 'font-size: 0.65rem;color: #E67E22;'`<br>
-`// colors`
-`orange: 'color: #E67E22;'`<br>
-`green: 'color: #2ECC71;'`<br>
-`yellow: 'color: #F1C40F;'`<br>
-`red: 'color: #C0392C;'`<br>
-`purple: 'color: #9B59B6;'`<br>
+<details>
+  <summary>debug property types</summary>
+  #### context properties
+  `alert: 'font-size:1rem;color:#D35400;'`<br>
+  `args: 'font-size:0.65rem;color:#E67E22;'`<br>
+  `standout: 'font-size:1.5rem;color:yellow;'`<br>
+  `light: 'font-size:0.65rem;color:#94A5A6;'`<br>
+  `small: 'font-size: 0.65rem;'`<br>
+  `large: 'font-size: 1rem;'`<br>
+  `modal: 'color:green;font-size:0.5rem;'`<br>
+  `event: 'font-size: 0.65rem;color:#16A085;'`<br>
+  `ui: 'font-size: 0.65rem;color:#F1C40F;'`<br>
+  `fn: 'font-size:0.65rem;color:#94A5A6;'`<br>
+  `message: 'font-size: 0.65rem;color:#9B59B6;'`<br>
+  `xhr: 'font-size: 0.65rem;color:#F1C40F'`<br>
+  `log: 'font-size: 0.65rem;color: #E67E22;'`<br>
+  #### color properties
+  `orange: 'color: #E67E22;'`<br>
+  `green: 'color: #2ECC71;'`<br>
+  `yellow: 'color: #F1C40F;'`<br>
+  `red: 'color: #C0392C;'`<br>
+  `purple: 'color: #9B59B6;'`<br>
+  #### object methods
+  `format: (...props) // where props can be any combination of the context and/or color properties e.g. format('small','orange')`
 
+</details>
+
+`CODES_US_STATES`
 

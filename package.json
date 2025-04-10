@@ -1,7 +1,7 @@
 {
   "name": "jshelprs",
   "version": "2.2",
-  "description": "A set of useful vanilla Javascript functions in ESM format.",
+  "description": "ESM formatted vanilla Javascript functions",
   "main": "jshelprs.js",
   "scripts": {
     "test": "exit 0"

@@ -32,7 +32,10 @@
  *    tries to determine the type of number passed in (float, int, safeInt, etc)
  *    @param num (any)
  *    @return object with details about what was found
+ *
+ *   Get_Media_Query_Size (deprecated)
  * 
+ *   Get_Window_Size (deprecated)
  * 
  *   2.1 Change Log
  *   
@@ -697,6 +700,7 @@ function Get_Last_String_Part(str, char) {
   return str.slice(i);
 }
 
+// Deprecated
 function Get_Media_Query_Size(w, h) {
   // console.log(int);
 
@@ -735,7 +739,7 @@ function Get_Rando_Num() {
   return num;
 }
 
-// REFACTOR
+// Deprecated
 function Get_Window_Size(media) {
   media = media || false;
   let w = window.innerWidth;

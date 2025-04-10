@@ -1,7 +1,7 @@
 /*!
  * module jshelprs <https://github.com/sushidub/jshelprs>
  * version 2.2
- * Copyright (c) 2024, Jeremy Graston.
+ * Copyright (c) 2025, Jeremy Graston.
  * Licensed under the MIT License.
  * 
  *   2.2 Change Log
@@ -60,20 +60,20 @@
  */
 
 const debug = {
+  // contexts
   alert: 'font-size:1rem;color:#D35400;',
   args: 'font-size:0.65rem;color:#E67E22;',
   standout: 'font-size:1.5rem;color:yellow;',
   light: 'font-size:0.65rem;color:#94A5A6;',
-  small: 'font-size: 0.65rem;',
-  large: 'font-size: 1rem;',
+  small: 'font-size:0.65rem;',
+  large: 'font-size:1rem;',
   modal: 'color:green;font-size:0.5rem;',
-  event: 'font-size: 0.65rem;color:#16A085;',
-  ui: 'font-size: 0.65rem;color:#F1C40F;',
+  event: 'font-size:0.65rem;color:#16A085;',
+  ui: 'font-size:0.65rem;color:#F1C40F;',
   fn: 'font-size:0.65rem;color:#94A5A6;',
-  message: 'font-size: 0.65rem;color:#9B59B6;',
-  xhr: 'font-size: 0.65rem;color:#F1C40F',
-  log: 'font-size: 0.65rem;color: #E67E22;',
-  
+  message: 'border-left:2px solid #9B59B6;padding-left:0.5rem;font-size:0.65rem;color:#9B59B6;',
+  xhr: 'font-size:0.65rem;color:#F1C40F;',
+  log: 'font-size:0.65rem;color:#E67E22;',
   // colors
   orange: 'color: #E67E22;',
   green: 'color: #2ECC71;',
@@ -401,7 +401,7 @@ function Copy_To_Clipboard(copyTarget) {
 
   this.addEventListener('click', (e) => {
     
-    navigator.clipboard.writeText(copyTarget).then(
+    navigator.clipboard.writeText(copyTarget.textContent).then(
       () => {
         console.info('Copied to clipboard');
         e.target.textContent = 'copied';
@@ -491,6 +491,8 @@ function Create_New_Element(type, attrObj, ns = false) {
 }
 
 function CSS_To_Matrix(translateX, translateY, scale) {
+  // MDN Ref. https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
+  // matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())
   scale = parseFloat(scale) || 1;
 
   var matrixObj = "matrix(" + scale + ", 0, 0, " + scale + ", " + parseInt(translateX, 10) + ", " + parseInt(translateY, 10) + ")";
@@ -939,6 +941,9 @@ function Make_Querable_Promise(promise) {
 }
 
 function Matrix_To_CSS(obj) {
+  // MDN Ref. https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
+  // matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())
+  
   if (obj === "null") {
     return "matrix(1,0,0,1,0,0)";
   }
@@ -946,12 +951,9 @@ function Matrix_To_CSS(obj) {
   return "matrix(" + obj.scale + ",0,0," + obj.scale + "," + obj.translateX + "," + obj.translateY + ")";
 }
 
-function NodeDevMode() {
-  if ( typeof process !== 'undefined'  && typeof process === 'object' ) {
-    return process.env.NODE_ENV === "development" ? true : false;
-  } else {
-    return false;
-  }
+function NodeDevMode(str) {
+  const _str = str ?? "development";
+  return process?.env?.NODE_ENV === _str ? true : false;
 }
 
 function Parse(str) {
@@ -1044,6 +1046,23 @@ function Set_Styles(elem, props) {
   });
 
   return true;
+}
+
+function Safely_Run_In_Browser(callback) {
+  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+      fallback: function fallback() {
+        return undefined;
+      }
+    },
+    fallback = _ref.fallback;
+
+  if (typeof window === 'undefined') {
+    return fallback();
+  }
+
+  return callback({
+    window: window
+  });
 }
 
 function Size_To_Text(ele, scale) {
@@ -1407,6 +1426,9 @@ function TypeOf_Object(obj) {
   } else if (obj instanceof Map) {
     console.info("TypeOf_Object: Map");
     return "map";
+  } else if (obj instanceof Set) {
+    console.info("TypeOf_Object: Set");
+    return "set";
   } else {
     console.info("TypeOf_Object: Object");
     return "object";
@@ -1554,6 +1576,7 @@ export {
   Report_Error,
   Reviver,
   Round_Precision,
+  Safely_Run_In_Browser,
   Set_Styles,
   Size_To_Text,
   Sort_By,
